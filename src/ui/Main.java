@@ -63,8 +63,8 @@ public class Main {
 				"3. Register Songs or Podcasts.\n" + 
 				"4. Create a Playlist.\n" +
 				"5. Edit playlist.\n" +
-				"6. Share a playlist.\n" +
-				"7. consult if a particular apartment is available.\n" +
+				"6. Share a playlist.(No available at the moment)\n" +
+				"7. consult if a particular apartment is available.(N.A)\n" +
                 "8. \n"+
                 "9. \n"+
 				"0. Exit. "); 
@@ -119,25 +119,113 @@ public class Main {
             }
 				break;
 			case 3:
-            
+            System.out.println("Digit the nickname of the Artist or the content creator: ");
+            nickname= reader.next();
+
+            System.out.println("Digit the audio name: ");
+            name = reader.next();
+            System.out.print("Digit the url:");
+            urlImage = reader.next();
+            System.out.println("Digit the duration of the audio:");
+            durationAudio = validateIntegerOption();
+
+            if(durationAudio ==-1){
+                System.out.println("Only valid options: ");
+            }
+            System.out.println("Choose the type of Audio \n"+
+            "1.Song\n"+
+            "2.Podcast");
+            type = validateIntegerOption();
+
+            switch(type){
+                case 1:
+                System.out.println("Digit the name of the album");
+                urlAlbum = reader.next();
+                System.out.println("Digit the cost of the song");
+                cost = validDoubleOption();
+                if(cost ==-1){
+                    System.out.println("Only valid options..");
+                }
+                System.out.println("Digit the genre of the song \n"+
+                "1.House\n"+
+                "2.Pop\n"+
+                "3.Rock\n"+
+                "4.Trap");
+                typeGenre= reader.nextInt();
+                if(typeGenre>4|| typeGenre<1){
+                    System.out.println("Only valid options...");
+                }else{
+                    System.out.println(streaming.createSong(nickname, audio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
+                }
+                break;
+
+                case 2:
+                System.out.println("Digit the description that will have the podcast");
+                description= reader.next();
+                System.out.println("Digit the type of podcast is this one : \n"+
+                "1.Entertainment \n"+
+                "2.Fashion\n"+
+                "3.Politics \n"+
+                "4.Videogames");
+                typePodcast = validateIntegerOption();
+                if(typePodcast >4 || typePodcast<1){
+                    System.out.println("Only valid options...");
+                }
+                System.out.println(streaming.createPodcast(nickname, audio, urlImage, durationAudio, description, typePodcast));
+                break;
+
+                default:
+                System.out.println("Only valid options");
+                break;
+            }  
 
 				break;
 
 			case 4:
+            System.out.println("You are creating a playlist");
+            System.out.println("Digit the user nickname");
+            nickname = reader.next();
+            System.out.println("Digit the playlist name:");
+            namePlaylist = reader.next();
+            System.out.println("Digit the type of playlist is this \n"+
+            "1.Songs\n"+
+            "2.Podcast\n"+
+            "3.Podcast and Songs");
+            type = validateIntegerOption();
 
-
+            if(type>4||type<1){
+                System.out.println("Only valid options...");
+            }
+            else{
+                System.out.println(streaming.registerPlaylist(nickname, namePlaylist, option));
+            }
 				break; 
 
 			case 5:
+            System.out.println("You are editing a playlist");
+            System.out.println("Enter the nickname of the consumer user:");
+            nickname = reader.next();
 
-				
+            System.out.println("You want to do what: \n"+
+            "1.Delete an audio\n"+
+            "2.Add an audio to playlist" );
 
+            type = validateIntegerOption();
+            if((type ==1 || type ==2)&& type !=-1){
+                System.out.println("Digit the name of the playlist");
+                namePlaylist = reader.next();
+                System.out.println("Digit the name of the audio: ");
+                audio = reader.next();
+
+                System.out.println(streaming.editAudioPlaylist(type, nickname, namePlaylist, audio));
+            }else{
+                System.out.println("Only valid options...");
+            }	
 				break;
 
-			case 7: 
+			case 6: 
 
-				
-
+			
 				break;
 
 			case 0: 
@@ -149,6 +237,20 @@ public class Main {
 				break; 
 		}
 	}
+
+    public double validDoubleOption(){
+        double option = 0;
+
+        if(reader.hasNextDouble()){
+            option = reader.nextDouble();
+        }
+        else{
+            reader.nextLine();
+            option = -1;
+        }
+        return option;
+
+    }
     
 }
 
