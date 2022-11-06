@@ -1,20 +1,20 @@
 package ui;
 
 import java.util.Scanner;
-import model.Streaming;
+import model.StreamingController;
 
 public class Main {
 
 
     private Scanner reader;
-    private Streaming streaming;
+    private StreamingController streaming;
 
     public Main(){
         reader = new Scanner(System.in);
-        streaming = new Streaming();
+        streaming = new StreamingController();
     }
 
-    public Streaming getStreamming(){
+    public StreamingController getStreamming(){
         return streaming;
     }
 
