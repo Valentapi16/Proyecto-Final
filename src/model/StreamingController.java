@@ -283,8 +283,91 @@ public class StreamingController {
     public String registerPlaylist(String nickname, String name, int option){
 
         String msj="The playlist has been created";
+        User user = findUser(nickname);
+
+        if(user == null){
+            msj = "This user doesnt exists";
+        }
+        else{
+            if(user instanceof Standard){
+                int[][] matriz = createMatriz();
+                String code = produceCode(option, matriz);
+                Standard standard = ((Standard)(user));
+                boolean validate = standard.addPlaylist(name, matriz, code, option);
+                if(validate ==false){
+                    msj= "This playlist already exists";
+                }
+            }
+            else if(user instanceof Premium){
+                int [][] matriz = createMatriz();
+                String code = produceCode(option, matriz);
+                Premium premium = ((Premium)(user));
+                boolean validate = premium.addPlaylist(name, matriz, code, option);
+                if(validate == false){
+                    msj = "This playlist already exists";
+                }
+            }
+            else{
+                msj = "This user doesnt have a plan(Standar or Premium)";
+            }
+        }
+        return msj;
+    }
+
+   
+    public String editAudioPlaylist(int option,String nickname,String namePlaylist, String audio){
+        String msj = ""; 
+        Audio newAudio = findAudio(audio);
+        if(newAudio == null){
+            msj = "The playlist has been created";
+        }
+        else{
+            int type;
+            if(newAudio instanceof Song){
+                type =1;
+            }
+            else{
+                type =2;
+            }
+            User aUser = findUser(nickname);
+            if(aUser == null){
+                msj = "This user doesnt exist"; 
+            }
+            else{
+                if(option ==1){
+
+                    if(aUser instanceof Standard){
+                        Standard newStandart = ((Standard)(aUser));
+                        msj = newStandart.addAudioToPlaylist(namePlaylist, type, newAudio,audio); 
+                    }
+                    else if(aUser instanceof Premium){
+                        Premium newPremium = ((Premium)(aUser));
+                        msj = newPremium.addAudioToPlaylist(namePlaylist,type,newAudio, audio);
+                    }
+                    else{
+                        msj = "This user doesnt have a Plan(Standard or Premium)";
+                    }
+                }
+                if(option == 2){
+
+                    if(aUser instanceof Standard){
+                        Standard newStandart = ((Standard)(aUser));
+                        msj = newStandart.deleteAudio(newAudio, namePlaylist, audio);
+                    }
+                    else if(aUser instanceof Premium){
+                        Premium newPremium = ((Premium)(aUser));
+                        msj = newPremium.deleteAudio(newAudio, namePlaylist, audio);
+                    }
+                    else{
+                        msj = "This user doesnt have a Plan(Standard or Premium)";
+                    }
+
+                }
+            }
+        }
 
         return msj;
+
     }
 
 }

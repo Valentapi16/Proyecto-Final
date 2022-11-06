@@ -54,49 +54,67 @@ public class Main {
         return option;
     }
 
-    public String optionMenu( ){
-        return
-        "<<<<<Neotunes Streaming>>>>> \n\n" +
+    public int optionMenu( ){
+        int option = 0;
+        
+       System.out.println("<<<<<Neotunes Streaming>>>>> \n\n" +
 				"1. Register Users: Producers, artist and content creators\n" +
 				"2. Register Users: Consumers, Estandar and Premium.\n" +
-				"3. Register Songs and Podcasts.\n" + 
+				"3. Register Songs or Podcasts.\n" + 
 				"4. Create a Playlist.\n" +
 				"5. Edit playlist.\n" +
 				"6. Share a playlist.\n" +
 				"7. consult if a particular apartment is available.\n" +
                 "8. \n"+
                 "9. \n"+
-				"0. Exit. "; 
+				"0. Exit. "); 
+        option = validateIntegerOption();
+        return option;
     }
     public void executeOption(int option){
-
-
-
+        String name,nickname,urlAlbum,id,urlImage,description,namePlaylist, audio = " ";
+        int type, durationAudio,typeGenre,typePodcast = 0;
+        double cost = 0.0;
 		switch(option){
-	
 
+			case 1:
+            System.out.println("You are doing the register of a producer");
+            System.out.println("Digit the nickname of the user: ");
+            nickname = reader.next();
+            System.out.println("Digit the identification: ");
+            id = reader.next();
+            System.out.println("Digit the url of the image");
+            urlImage = reader.next();
+            System.out.println("Digit the real name of the producer: ");
+            name = reader.next();
+            System.out.println("Choose the type of producer : \n"+
+            
+            "1.Creator of content \n" +
+            "2.Artist");
+            type = validateIntegerOption();
 
-			case 2:
-
-
-				
+            if((type ==2 || type ==1)&& type != -1){
+                System.out.println(streaming.createProducer(nickname, id, urlImage, name, type));
+            }else{
+                System.out.println("Only valid options...");
+            }
 				break; 
 
-			case 3: 
+			case 2: 
 
+
+				break;
+
+			case 3:
 
 				break;
 
 			case 4:
 
-				break;
-
-			case 5:
-
 
 				break; 
 
-			case 6:
+			case 5:
 
 				
 
