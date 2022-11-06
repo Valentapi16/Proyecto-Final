@@ -31,7 +31,10 @@ public class Playlist {
 
         }
     }
-
+	/**
+	getName: This method will get the name of the playlist
+	@return option: int: this parameter read the option entered by the user. 
+	*/
     public String getName(){
         return namePlaylist;
     }

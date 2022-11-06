@@ -279,7 +279,13 @@ public class StreamingController {
         }
         return msj;
     }
-
+     /**
+     * registerPlaylist: This method will register a playlist.
+     * @param nickname: String: this is the user nickname.
+     * @param name: String: this is the playlist name.
+     * @param option: int: the playlist type. 
+     * @return msj: String: a confirmation message.
+     */
     public String registerPlaylist(String nickname, String name, int option){
 
         String msj="The playlist has been created";
@@ -314,12 +320,19 @@ public class StreamingController {
         return msj;
     }
 
-   
+    /**
+     * editAudioPlaylist: this method add a audio of aplaylist.
+     * @param option: int: the playlist type. 
+     * @param nickname: String: this is the user nickname.
+     * @param namePlaylist: String: this is de playlist name.
+     * @param audio: String: the audios name. 
+     * @return msj: String: a confirmation message.
+     */
     public String editAudioPlaylist(int option,String nickname,String namePlaylist, String audio){
         String msj = ""; 
         Audio newAudio = findAudio(audio);
         if(newAudio == null){
-            msj = "The playlist has been created";
+            msj = "This song doesnt exists";
         }
         else{
             int type;

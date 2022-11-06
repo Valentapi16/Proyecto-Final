@@ -27,13 +27,17 @@ public class Main {
         Main main = new Main();
         int option = 0;
         do{
-            option = main.getOptionShowMenu();
+            option = main.optionMenu();
             main.executeOption(option);
         }while(option != 0);
 
         main.getReader().close();
     }
-
+	/**
+	validateIntegerOption: This method will make that the system doesnt close when the user put
+    a invalid option
+	@return option: int:the option make by the user. 
+	*/
     public int validateIntegerOption(){
         int option = 0;
 
@@ -47,13 +51,12 @@ public class Main {
         return option;
     }
 
-    public int getOptionShowMenu(){
-        int option = 0;
-        System.out.println(optionMenu());
-        option = validateIntegerOption();
-        return option;
-    }
 
+	/**
+	optionMenu: This method shows all the options available in the menu, 
+					after having the user enter an option.
+	@return option: int: this parameter read the option entered by the user. 
+	*/
     public int optionMenu( ){
         int option = 0;
         
@@ -72,7 +75,7 @@ public class Main {
         return option;
     }
     public void executeOption(int option){
-        String name,nickname,urlAlbum,id,urlImage,description,namePlaylist, audio = " ";
+        String name,nickname,urlAlbum,id,urlImage,description,namePlaylist, nameAudio = " ";
         int type, durationAudio,typeGenre,typePodcast = 0;
         double cost = 0.0;
 		switch(option){
@@ -123,8 +126,8 @@ public class Main {
             nickname= reader.next();
 
             System.out.println("Digit the audio name: ");
-            name = reader.next();
-            System.out.print("Digit the url:");
+            nameAudio = reader.next();
+            System.out.println("Digit the url:");
             urlImage = reader.next();
             System.out.println("Digit the duration of the audio:");
             durationAudio = validateIntegerOption();
@@ -155,7 +158,7 @@ public class Main {
                 if(typeGenre>4|| typeGenre<1){
                     System.out.println("Only valid options...");
                 }else{
-                    System.out.println(streaming.createSong(nickname, audio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
+                    System.out.println(streaming.createSong(nickname, nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
                 }
                 break;
 
@@ -171,7 +174,7 @@ public class Main {
                 if(typePodcast >4 || typePodcast<1){
                     System.out.println("Only valid options...");
                 }
-                System.out.println(streaming.createPodcast(nickname, audio, urlImage, durationAudio, description, typePodcast));
+                System.out.println(streaming.createPodcast(nickname, nameAudio, urlImage, durationAudio, description, typePodcast));
                 break;
 
                 default:
@@ -215,10 +218,11 @@ public class Main {
                 System.out.println("Digit the name of the playlist");
                 namePlaylist = reader.next();
                 System.out.println("Digit the name of the audio: ");
-                audio = reader.next();
+                nameAudio = reader.next();
 
-                System.out.println(streaming.editAudioPlaylist(type, nickname, namePlaylist, audio));
-            }else{
+                System.out.println(streaming.editAudioPlaylist(type, nickname, namePlaylist, nameAudio));
+            }
+            else{
                 System.out.println("Only valid options...");
             }	
 				break;
@@ -237,7 +241,10 @@ public class Main {
 				break; 
 		}
 	}
-
+	/**
+	validateDoubleOption: This method make that the system doesnt close when a option is invalid
+	@return option: the option of the user. 
+	*/
     public double validDoubleOption(){
         double option = 0;
 
