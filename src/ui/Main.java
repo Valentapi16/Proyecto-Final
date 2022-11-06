@@ -101,11 +101,25 @@ public class Main {
 				break; 
 
 			case 2: 
+            System.out.println("You are doing the register of a consumer user");
 
+            System.out.println("Digit the nickname of the user: ");
+            nickname = reader.next();
+            System.out.println("Digit the identification: ");
+            id = reader.next();
+            System.out.println("Choose the Plan you want to have: \n"+
+            "1.Standard \n"+
+            "2.Premium");
+            type = validateIntegerOption();
 
+            if((type ==2 || type ==1)&& type != -1){
+                System.out.println(streaming.createConsumer(nickname, id, type));
+            }else{
+                System.out.print("Only valid options...");
+            }
 				break;
-
 			case 3:
+            
 
 				break;
 
