@@ -65,9 +65,16 @@ public class Playlist {
         return codePlaylist;
     }
 
-
     public void setCode(String codePlaylist) {
         this.codePlaylist = codePlaylist;
+    }
+
+    public TypePlaylist getTypePlaylist() {
+        return typePlaylist;
+    }
+
+    public void setTypePlaylist(TypePlaylist typePlaylist){
+        this.typePlaylist = typePlaylist;
     }
 
     public int typePlaylist(){

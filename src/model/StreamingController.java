@@ -53,11 +53,11 @@ public class StreamingController {
      */
     public int generateANumber(){
 
-        int num = 0;
-        Random r = new Random();
-        num = (int) (r.nextInt()* 9)+ 0;
 
-        return num;
+        Random r = new Random();
+        int value = r.nextInt(8+1)+ 1;
+
+        return value;
 
     }
 
@@ -70,7 +70,7 @@ public class StreamingController {
         int matriz[][] = new int[ROWS][COLUMNS];
 
         for(int i= 0; i<ROWS; i++){
-            for(int j= 0; j<COLUMNS; j++){
+            for(int j= 0; i<COLUMNS; i++){
                 matriz[i][j] =generateANumber(); 
             }
         }
@@ -88,6 +88,7 @@ public class StreamingController {
 
         for(int i= 0; i<audios.size() && !isFound; i++){
             if(audios.get(i).getName().equalsIgnoreCase(nameAudio)){
+                
                 audio = audios.get(i);
                 isFound = true;
             }
@@ -192,9 +193,9 @@ public class StreamingController {
      */
     public String createProducer(String nickname, String id, String url,String name, int option){
         String msj;
-        User otherUser = findUser(nickname);
+        User user = findUser(nickname);
 
-        if(otherUser != null){
+        if(user != null){
             msj = "This user already exists";
         }
         else{
@@ -222,10 +223,10 @@ public class StreamingController {
      */
 
     public String createPodcast(String nickname, String nameAudio, String urlImage, int durationAudio,String description, int typePodcast){
-        String msj= "";
+        String msj= "Podcast created";
         User user = findUser(nickname);
 
-        if(user ==null){
+        if(user == null){
             msj = "This user doesnt exist in the system";
         }
         else{
@@ -266,15 +267,16 @@ public class StreamingController {
         }
         else{
             if(user instanceof Artist){
+                audios.add(new Song(nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
+                Artist artist = ((Artist)(user));
+                artist.getSongs().add(new Song(nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
+            }
+            else{
                 Audio song = findAudio(nameAudio);
                 if(song!= null){
                     msj ="This song already exists";
                 }
-            }
-            else{
-                audios.add(new Song(nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
-                Artist artist = ((Artist)(user));
-                artist.getSongs().add(new Song(nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
+
             }
         }
         return msj;
@@ -328,48 +330,46 @@ public class StreamingController {
      * @param audio: String: the audios name. 
      * @return msj: String: a confirmation message.
      */
-    public String editAudioPlaylist(int option,String nickname,String namePlaylist, String audio){
+    public String editAudioPlaylist(int option,String nickname,String namePlaylist, String nameAudio){
         String msj = ""; 
-        Audio newAudio = findAudio(audio);
+        Audio newAudio = findAudio(nameAudio);
         if(newAudio == null){
-            msj = "This song doesnt exists";
+            msj = ("This song doesnt exists");
         }
         else{
             int type;
             if(newAudio instanceof Song){
-                type =1;
+                type = 1;
             }
             else{
-                type =2;
+                type = 2;
             }
-            User aUser = findUser(nickname);
-            if(aUser == null){
+            User theUser = findUser(nickname);
+            if(theUser == null){
                 msj = "This user doesnt exist"; 
             }
             else{
-                if(option ==1){
-
-                    if(aUser instanceof Standard){
-                        Standard newStandart = ((Standard)(aUser));
-                        msj = newStandart.addAudioToPlaylist(namePlaylist, type, newAudio,audio); 
+                if(option == 1){
+                    if(theUser instanceof Standard){
+                        Standard newStandart = ((Standard)(theUser));
+                        msj = newStandart.deleteAudio(newAudio, namePlaylist, nameAudio);
                     }
-                    else if(aUser instanceof Premium){
-                        Premium newPremium = ((Premium)(aUser));
-                        msj = newPremium.addAudioToPlaylist(namePlaylist,type,newAudio, audio);
+                    else if(theUser instanceof Premium){
+                        Premium newPremium = ((Premium)(theUser));
+                        msj = newPremium.deleteAudio(newAudio, namePlaylist, nameAudio);
                     }
                     else{
                         msj = "This user doesnt have a Plan(Standard or Premium)";
                     }
                 }
                 if(option == 2){
-
-                    if(aUser instanceof Standard){
-                        Standard newStandart = ((Standard)(aUser));
-                        msj = newStandart.deleteAudio(newAudio, namePlaylist, audio);
+                    if(theUser instanceof Standard){
+                        Standard newStandart = ((Standard)(theUser));
+                        msj = newStandart.addAudioToPlaylist(namePlaylist, type, newAudio,nameAudio); 
                     }
-                    else if(aUser instanceof Premium){
-                        Premium newPremium = ((Premium)(aUser));
-                        msj = newPremium.deleteAudio(newAudio, namePlaylist, audio);
+                    else if(theUser instanceof Premium){
+                        Premium newPremium = ((Premium)(theUser));
+                        msj = newPremium.addAudioToPlaylist(namePlaylist,type,newAudio, nameAudio);
                     }
                     else{
                         msj = "This user doesnt have a Plan(Standard or Premium)";

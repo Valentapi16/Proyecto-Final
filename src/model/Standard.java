@@ -3,9 +3,11 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 
 public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlaylist {
     private Playlist[] playlist;
+    private ArrayList<Audio> audios;
     private final int SIZE_PLAYLIST = 20;
 
 
@@ -13,6 +15,7 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
         super(id, nickname, vinculationDate, purchaseDate);
 
         playlist = new Playlist[SIZE_PLAYLIST];
+        audios = new ArrayList<Audio>();
     }
 
 
@@ -36,12 +39,21 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
 
         boolean validate = true;
         Playlist newPlaylist = findPlaylist(namePlaylist);
+        
         if(newPlaylist !=null){
             validate = false;
         }
         else{
             boolean anotherValidate = spaceForPlaylist();
             if(anotherValidate==true){
+                newPlaylist = new Playlist(namePlaylist, matriz, namePlaylist, option);
+                anotherValidate = false;
+                for(int i= 0; i< 20 && !anotherValidate ; i++){
+                    if(playlist[i]==null){
+                        playlist[i]= newPlaylist;
+                        anotherValidate = true;
+                    }
+                }
 
             }
         }
@@ -62,14 +74,14 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
     public String deleteAudio(Audio audio, String namePlaylist, String nameAudio) {
         
         String msj="";
-        Playlist playlist= findPlaylist(namePlaylist);
-        if(playlist ==null){
+        Playlist thePlaylist= findPlaylist(namePlaylist);
+        if(thePlaylist ==null){
             msj= "This playlist doesnt exists";
         }
         else{
-            boolean repitAudio = playlist.findAudio(nameAudio);
+            boolean repitAudio = thePlaylist.findAudio(nameAudio);
             if(repitAudio == true){
-                playlist.getAudios().remove(audio);
+                thePlaylist.getAudios().remove(audio);
                 msj = "The audio has been succesfully removed";
             }
             else{

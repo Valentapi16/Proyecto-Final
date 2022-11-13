@@ -67,7 +67,7 @@ public class Main {
 				"4. Create a Playlist.\n" +
 				"5. Edit playlist.\n" +
 				"6. Share a playlist.(No available at the moment)\n" +
-				"7. consult if a particular apartment is available.(N.A)\n" +
+				"7. (N.A)\n" +
                 "8. \n"+
                 "9. \n"+
 				"0. Exit. "); 
@@ -75,7 +75,8 @@ public class Main {
         return option;
     }
     public void executeOption(int option){
-        String name,nickname,urlAlbum,id,urlImage,description,namePlaylist, nameAudio = " ";
+        String name,nickname,id,description,namePlaylist, nameAudio = " ";
+        String urlAlbum, urlImage = "";
         int type, durationAudio,typeGenre,typePodcast = 0;
         double cost = 0.0;
 		switch(option){

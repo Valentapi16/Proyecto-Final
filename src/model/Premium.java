@@ -6,28 +6,30 @@ import java.util.ArrayList;
 public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylist {
 
     private ArrayList<Playlist> playlist;
+    private ArrayList <Audio> audios;
 
     public Premium(String id, String nickname, Calendar vinculationDate,Calendar purchaseDate){
         super(id, nickname, vinculationDate, purchaseDate);
         playlist = new ArrayList<Playlist>();
+        audios = new ArrayList<Audio>();
         
     }
 
     @Override
     public String deleteAudio(Audio audio, String namePlaylist, String nameAudio) {
         String msj ="";
-        Playlist playlist = findPlaylist(namePlaylist);
-        if(playlist ==null){
+        Playlist thePlaylist = findPlaylist(namePlaylist);
+        if(thePlaylist ==null){
             msj= "That playlist doesnt exists";
         }
         else{
-            boolean repitAudio= playlist.findAudio(nameAudio);
+            boolean repitAudio=thePlaylist.findAudio(nameAudio);
             if(repitAudio == true){
-                playlist.getAudios().remove(audio);
+                thePlaylist.getAudios().remove(audio);
                 msj="The audio has been removed";
             }
             else{
-                msj = "It is not possible to found that audio";
+                msj = "It is not possible to found that audio nopuedeserrrrrr";
             }
         }
         return msj;

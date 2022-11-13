@@ -48,7 +48,7 @@ public class Song extends Audio {
     }
 
 
-    public void setPrice(double cost) {
+    public void setCost(double cost) {
         this.cost = cost;
     }
 
@@ -63,12 +63,12 @@ public class Song extends Audio {
     }
 
 
-    public TypeGenre getTypeSong() {
+    public TypeGenre getTypeGenre() {
         return typeGenre;
     }
 
 
-    public void setTypeSong(TypeGenre typeGenre) {
+    public void setTypeGenre(TypeGenre typeGenre) {
         this.typeGenre = typeGenre;
     }
     
