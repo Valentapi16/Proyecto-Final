@@ -195,13 +195,26 @@ public class Main {
             "1.Songs\n"+
             "2.Podcast\n"+
             "3.Podcast and Songs");
+            // esta es la variable que define cual será el typo de playlist
             type = validateIntegerOption();
 
+            // acá haces la validación de que ese valor este en el rango correcto 
+            // de valores que puede tomar. 
             if(type>4||type<1){
                 System.out.println("Only valid options...");
             }
             else{
-                System.out.println(streaming.registerPlaylist(nickname, namePlaylist, option));
+                // pero nunca la usas para inicializar la playlist, usas la variable 
+                // option cuyo valor en este momento es 5, al no ser un valor valido 
+                // typePlaylist nunca se inicializa en el contructor 
+                // y el método typePlaylist() retorna un null. 
+                //
+                // esta es la línea que tenías antes: 
+                // System.out.println(streaming.registerPlaylist(nickname, namePlaylist, option));
+                // esta es la línea después ...                                     solo cambie esto. 
+                //                                                                      ^
+                //                                                                      | 
+                System.out.println(streaming.registerPlaylist(nickname, namePlaylist, type));
             }
 				break; 
 

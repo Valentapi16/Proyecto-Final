@@ -78,6 +78,7 @@ public class Playlist {
     }
 
     public int typePlaylist(){
+        System.out.println("Playlist::typePlaylist::typePlaylist::>> " + typePlaylist); 
         switch(typePlaylist){
             case SONG:
              return 1;

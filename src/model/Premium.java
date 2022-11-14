@@ -43,7 +43,9 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
                 msj ="This playlist doesnt exists";
             }
             else{
+                System.out.println("Premium::addAudioToPlayList::playlist::>>"+playlist);
                 if(playlist.typePlaylist()==1){
+                    System.out.println("Premium::addAudioToPlaylist::playlist.typePlaylist() == 1 >> Enter condition.");
                     if(playlist.typePlaylist()==typeAudio){
                         boolean repitAudio= playlist.findAudio(nameAudio);
                         if(repitAudio == false){
@@ -83,6 +85,7 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
 
     @Override
     public Playlist findPlaylist(String namePlaylist) {
+        System.out.println("Premium::findPlayList::onStart");
         Playlist newPlaylist = null;
         boolean validate = false;
         for(int i= 0; i<playlist.size() && !validate; i++){
@@ -92,6 +95,7 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
             }
 
         }
+        System.out.println("Premium::findPlaylist::newPlaylist::>>"+ newPlaylist);;
         return newPlaylist;
     }
 
