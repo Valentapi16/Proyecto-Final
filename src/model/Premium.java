@@ -44,6 +44,7 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
             }
             else{
 
+
                 if(playlist.typePlaylist()==1){
 
                     if(playlist.typePlaylist()==typeAudio){
@@ -84,7 +85,9 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
         }
 
     @Override
-    public Playlist findPlaylist(String namePlaylist) {        Playlist newPlaylist = null;
+    public Playlist findPlaylist(String namePlaylist) {
+        Playlist newPlaylist = null;
+
         boolean validate = false;
         for(int i= 0; i<playlist.size() && !validate; i++){
             if(playlist.get(i).getName().equalsIgnoreCase(namePlaylist)){
@@ -93,6 +96,7 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
             }
 
         }
+        System.out.println("Premium::findPlaylist::newPlaylist::>>"+ newPlaylist);;
         return newPlaylist;
     }
 
