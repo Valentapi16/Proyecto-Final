@@ -75,8 +75,9 @@ public class Main {
         return option;
     }
     public void executeOption(int option){
-        String name,nickname,id,description,namePlaylist, nameAudio = " ";
+        String name,nickname,id,namePlaylist, nameAudio = " ";
         String urlAlbum, urlImage = "";
+        String description = "";
         int type, durationAudio,typeGenre,typePodcast = 0;
         double cost = 0.0;
 		switch(option){
@@ -181,7 +182,7 @@ public class Main {
                 default:
                 System.out.println("Only valid options");
                 break;
-            }  
+                }  
 
 				break;
 
@@ -201,7 +202,7 @@ public class Main {
                 System.out.println("Only valid options...");
             }
             else{
-                System.out.println(streaming.registerPlaylist(nickname, namePlaylist, option));
+                System.out.println(streaming.registerPlaylist(nickname, namePlaylist, type));
             }
 				break; 
 

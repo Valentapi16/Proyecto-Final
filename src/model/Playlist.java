@@ -78,6 +78,7 @@ public class Playlist {
     }
 
     public int typePlaylist(){
+
         switch(typePlaylist){
             case SONG:
              return 1;
