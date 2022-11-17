@@ -20,5 +20,15 @@ public class Artist extends Producer {
     public void setSongs(ArrayList<Song> songs){
         this.songs =songs;
     }
+
+    public boolean searchAutorAudio(Song song){
+        boolean isFound = false;
+        for(int i = 0; i< songs.size() && !isFound; i++){
+            if(songs.get(i) == song){
+                isFound = true;
+            }
+        }
+        return isFound;
+    }
     
 }

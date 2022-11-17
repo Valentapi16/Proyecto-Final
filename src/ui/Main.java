@@ -66,14 +66,16 @@ public class Main {
 				"3. Register Songs or Podcasts.\n" + 
 				"4. Create a Playlist.\n" +
 				"5. Edit playlist.\n" +
-				"6. Share a playlist.(No available at the moment)\n" +
-				"7. (N.A)\n" +
-                "8. \n"+
-                "9. \n"+
+				"6. Share a playlist\n" +
+				"7. Listen a song\n" +
+                "8. Purchase a song\n"+
+                "9. Show reports\n"+
 				"0. Exit. "); 
         option = validateIntegerOption();
         return option;
     }
+
+
     public void executeOption(int option){
         String name,nickname,id,namePlaylist, nameAudio = " ";
         String urlAlbum, urlImage = "";
@@ -84,14 +86,19 @@ public class Main {
 
 			case 1:
             System.out.println("You are doing the register of a producer");
+
             System.out.println("Digit the nickname of the user: ");
             nickname = reader.next();
+
             System.out.println("Digit the identification: ");
             id = reader.next();
+
             System.out.println("Digit the url of the image");
             urlImage = reader.next();
+
             System.out.println("Digit the real name of the producer: ");
             name = reader.next();
+            
             System.out.println("Choose the type of producer : \n"+
             
             "1.Creator of content \n" +
@@ -128,7 +135,9 @@ public class Main {
             nickname= reader.next();
 
             System.out.println("Digit the audio name: ");
-            nameAudio = reader.next();
+            reader.nextLine();
+            nameAudio = reader.nextLine();
+
             System.out.println("Digit the url:");
             urlImage = reader.next();
             System.out.println("Digit the duration of the audio:");
@@ -160,13 +169,16 @@ public class Main {
                 if(typeGenre>4|| typeGenre<1){
                     System.out.println("Only valid options...");
                 }else{
-                    System.out.println(streaming.createSong(nickname, nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
+                    System.out.println(streaming.createSong(nickname, nameAudio, urlImage, durationAudio,type, urlAlbum, cost, typeGenre));
                 }
                 break;
 
                 case 2:
+                
                 System.out.println("Digit the description that will have the podcast");
-                description= reader.next();
+                reader.nextLine();
+                description= reader.nextLine();
+                reader.nextLine();
                 System.out.println("Digit the type of podcast is this one : \n"+
                 "1.Entertainment \n"+
                 "2.Fashion\n"+
@@ -176,7 +188,7 @@ public class Main {
                 if(typePodcast >4 || typePodcast<1){
                     System.out.println("Only valid options...");
                 }
-                System.out.println(streaming.createPodcast(nickname, nameAudio, urlImage, durationAudio, description, typePodcast));
+                System.out.println(streaming.createPodcast(nickname, nameAudio, urlImage, durationAudio,type, description, typePodcast));
                 break;
 
                 default:
@@ -222,7 +234,7 @@ public class Main {
                 System.out.println("Digit the name of the audio: ");
                 nameAudio = reader.next();
 
-                System.out.println(streaming.editAudioPlaylist(type, nickname, namePlaylist, nameAudio));
+                System.out.println(streaming.editAudioPlaylist(nickname, type, namePlaylist, nameAudio));
             }
             else{
                 System.out.println("Only valid options...");

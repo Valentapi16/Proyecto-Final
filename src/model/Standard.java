@@ -138,6 +138,27 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
         return msj;
     }
 
+
+    @Override
+    public String sharePlaylist(String namePlaylist) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public String shareMatrizPlaylist(String namePlaylist) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+    @Override
+    public String showMatriz(int[][] matrix) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     
 
 }

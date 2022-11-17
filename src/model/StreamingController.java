@@ -222,7 +222,7 @@ public class StreamingController {
      * @return msj: String: a confirm message.
      */
 
-    public String createPodcast(String nickname, String nameAudio, String urlImage, int durationAudio,String description, int typePodcast){
+    public String createPodcast(String nickname, String nameAudio, String urlImage, int durationAudio,int option,String description, int typePodcast){
         String msj= "Podcast created";
         User user = findUser(nickname);
 
@@ -258,7 +258,7 @@ public class StreamingController {
      * @param typeGenre: int: the song type. 
      * @return msj: String: a confirmation message.
      */
-    public String createSong(String nickname, String nameAudio, String urlImage,int durationAudio,String urlAlbum, double cost, int typeGenre){
+    public String createSong(String nickname, String nameAudio, String urlImage,int durationAudio,int option,String urlAlbum, double cost, int typeGenre){
         String msj = "New song created";
         User user = findUser(nickname);
 
@@ -267,15 +267,15 @@ public class StreamingController {
         }
         else{
             if(user instanceof Artist){
-                audios.add(new Song(nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
-                Artist artist = ((Artist)(user));
-                artist.getSongs().add(new Song(nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
-            }
-            else{
                 Audio song = findAudio(nameAudio);
                 if(song!= null){
                     msj ="This song already exists";
                 }
+            }
+            else{
+                audios.add(new Song(nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
+                Artist artist = ((Artist)(user));
+                artist.getSongs().add(new Song(nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
 
             }
         }
@@ -330,7 +330,7 @@ public class StreamingController {
      * @param audio: String: the audios name. 
      * @return msj: String: a confirmation message.
      */
-    public String editAudioPlaylist(int option,String nickname,String namePlaylist, String nameAudio){
+    public String editAudioPlaylist(String nickname,int option,String namePlaylist, String nameAudio){
         String msj = ""; 
         Audio newAudio = findAudio(nameAudio);
         if(newAudio == null){

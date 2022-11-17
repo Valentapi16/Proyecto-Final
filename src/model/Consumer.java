@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 
 
-public class Consumer extends User {
+public abstract class Consumer extends User {
 
 
 
@@ -13,6 +13,9 @@ public class Consumer extends User {
         
     }
 
+    public abstract String sharePlaylist(String namePlaylist);
+    public abstract String shareMatrizPlaylist(String namePlaylist);
+    public abstract String showMatriz(int[][] matrix);
 
     
 }
