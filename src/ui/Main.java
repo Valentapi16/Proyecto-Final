@@ -169,7 +169,7 @@ public class Main {
                 if(typeGenre>4|| typeGenre<1){
                     System.out.println("Only valid options...");
                 }else{
-                    System.out.println(streaming.createSong(nickname, nameAudio, urlImage, durationAudio,type, urlAlbum, cost, typeGenre));
+                    System.out.println(streaming.createSong(nickname, nameAudio, urlImage, durationAudio,urlAlbum, cost, typeGenre));
                 }
                 break;
 
@@ -224,8 +224,8 @@ public class Main {
             nickname = reader.next();
 
             System.out.println("You want to do what: \n"+
-            "1.Delete an audio\n"+
-            "2.Add an audio to playlist" );
+            "1.Add audio to playlist\n"+
+            "2.Delete an audio" );
 
             type = validateIntegerOption();
             if((type ==1 || type ==2)&& type !=-1){
@@ -234,7 +234,7 @@ public class Main {
                 System.out.println("Digit the name of the audio: ");
                 nameAudio = reader.next();
 
-                System.out.println(streaming.editAudioPlaylist(nickname, type, namePlaylist, nameAudio));
+                System.out.println(streaming.editAudioPlaylist(type,nickname, namePlaylist, nameAudio));
             }
             else{
                 System.out.println("Only valid options...");
@@ -242,9 +242,27 @@ public class Main {
 				break;
 
 			case 6: 
+            System.out.println("You choose to share a playlist");
 
+            System.out.println("Digit the nickname of the user consumer");
+            nickname = reader.next();
+            System.out.println("Digit the name of the playlist: ");
+            namePlaylist = reader.next();
+
+            System.out.println(streaming.shareThePlaylist(nickname, namePlaylist));
 			
 				break;
+            case 7:
+            System.out.println("You choose to reproduce an audio");
+
+            System.out.println("Digit the nickname of the user consumer");
+            nickname = reader.next();
+            System.out.println("Digit the name of the playlist: ");
+            namePlaylist = reader.next();
+
+            System.out.println(streaming.reproductionAudio(nickname, nameAudio));
+            
+                break;            
 
 			case 0: 
 				System.out.println("Exit program.");

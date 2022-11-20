@@ -29,7 +29,7 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
                 msj="The audio has been removed";
             }
             else{
-                msj = "It is not possible to found that audio nopuedeserrrrrr";
+                msj = "It is not possible to found that audio ";
             }
         }
         return msj;
@@ -38,48 +38,61 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
     @Override
     public String addAudioToPlaylist(String namePlaylist, int typeAudio, Audio audio, String nameAudio) {
             String msj = "";
-            Playlist playlist = findPlaylist(namePlaylist);
-            if(playlist == null){
+            Playlist thePlaylist = findPlaylist(namePlaylist);
+            if(thePlaylist == null){
                 msj ="This playlist doesnt exists";
             }
             else{
 
+                if(thePlaylist.typePlaylist()==1){
 
-                if(playlist.typePlaylist()==1){
-
-                    if(playlist.typePlaylist()==typeAudio){
-                        boolean repitAudio= playlist.findAudio(nameAudio);
+                    if(thePlaylist.typePlaylist()==typeAudio){
+                        boolean repitAudio= thePlaylist.findAudio(nameAudio);
                         if(repitAudio == false){
-                            playlist.getAudios().add(audio);
+                            thePlaylist.getAudios().add(audio);
                             msj= "The audio has been added";
                         }
                         else{
-                            msj = "It is not possible to add this audio due to it is a differente type pf playlist";
+                            msj = "The audio is repited";
                         }
                     }
-                    if(playlist.typePlaylist()==2){
-                        if(playlist.typePlaylist()==typeAudio){
-                            boolean repitAudio = playlist.findAudio(nameAudio);
-                            if(repitAudio== false){
-                                playlist.getAudios().add(audio);
-                                msj = "The audio has been added";
-                            }
-                            else{
-                                msj= "It is not possible to add this audio due to it is a different type of playlist";
-                            }
-                        }
-                    }
-                    if(playlist.typePlaylist()== 3){
-                        boolean repitAudio = playlist.findAudio(nameAudio);
-                        if(repitAudio == false){
-                            playlist.getAudios().add(audio);
-                            msj= "The audio has been added";
-                        }
-                        else{
-                            msj="It is not possible to add this audio due to it is a differente type of playlist";
-                        }
+                    else{
+                        msj = "You cant add this audio due to this is a different kind of playlist";
                     }
                 }
+                if(thePlaylist.typePlaylist()==2){
+
+                    if(thePlaylist.typePlaylist()==typeAudio){
+                        boolean repitAudio= thePlaylist.findAudio(nameAudio);
+                        if(repitAudio == false){
+                            thePlaylist.getAudios().add(audio);
+                            msj= "The audio has been added";
+                        }
+                        else{
+                            msj = "The audio is repited";
+                        }
+                    }
+                    else{
+                        msj = "You cant add this audio due to this is a different kind of playlist";
+                    }
+                }
+                if(thePlaylist.typePlaylist()==3){
+
+                    if(thePlaylist.typePlaylist()==typeAudio){
+                        boolean repitAudio= thePlaylist.findAudio(nameAudio);
+                        if(repitAudio == false){
+                            thePlaylist.getAudios().add(audio);
+                            msj= "The audio has been added";
+                        }
+                        else{
+                            msj = "The audio is repited";
+                        }
+                    }
+                    else{
+                        msj = "You cant add this audio due to this is a different kind of playlist";
+                    }
+                }
+
             }
             return msj;
         }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
-public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlaylist {
+public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlaylist, IPlayAudio {
     private Playlist[] playlist;
     private ArrayList<Audio> audios;
     private final int SIZE_PLAYLIST = 20;
@@ -94,69 +94,273 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
 
     @Override
     public String addAudioToPlaylist(String namePlaylist, int typeAudio, Audio audio, String nameAudio) {
+            String msj = "";
+            Playlist thePlaylist = findPlaylist(namePlaylist);
+            if(thePlaylist == null){
+                msj ="This playlist doesnt exists";
+            }
+            else{
+
+                if(thePlaylist.typePlaylist()==1){
+
+                    if(thePlaylist.typePlaylist()==typeAudio){
+                        boolean repitAudio= thePlaylist.findAudio(nameAudio);
+                        if(repitAudio == false){
+                            thePlaylist.getAudios().add(audio);
+                            msj= "The audio has been added";
+                        }
+                        else{
+                            msj = "The audio is repited";
+                        }
+                    }
+                    else{
+                        msj = "You cant add this audio due to this is a different kind of playlist";
+                    }
+                }
+                if(thePlaylist.typePlaylist()==2){
+
+                    if(thePlaylist.typePlaylist()==typeAudio){
+                        boolean repitAudio= thePlaylist.findAudio(nameAudio);
+                        if(repitAudio == false){
+                            thePlaylist.getAudios().add(audio);
+                            msj= "The audio has been added";
+                        }
+                        else{
+                            msj = "The audio is repited";
+                        }
+                    }
+                    else{
+                        msj = "You cant add this audio due to this is a different kind of playlist";
+                    }
+                }
+                if(thePlaylist.typePlaylist()==3){
+
+                    if(thePlaylist.typePlaylist()==typeAudio){
+                        boolean repitAudio= thePlaylist.findAudio(nameAudio);
+                        if(repitAudio == false){
+                            thePlaylist.getAudios().add(audio);
+                            msj= "The audio has been added";
+                        }
+                        else{
+                            msj = "The audio is repited";
+                        }
+                    }
+                    else{
+                        msj = "You cant add this audio due to this is a different kind of playlist";
+                    }
+                }
+
+            }
+            return msj;
+        }
+
+
+    @Override
+    public String sharePlaylist(String namePlaylist) {
         String msj = "";
         Playlist playlist = findPlaylist(namePlaylist);
         if(playlist == null){
             msj ="This playlist doesnt exists";
         }
         else{
-            if(playlist.typePlaylist()==1){
-                if(playlist.typePlaylist()==typeAudio){
-                    boolean repitAudio= playlist.findAudio(nameAudio);
-                    if(repitAudio == false){
-                        playlist.getAudios().add(audio);
-                        msj= "The audio has been added";
-                    }
-                    else{
-                        msj = "It is not possible to add this audio due to it is a differente type pf playlist";
-                    }
-                }
-                if(playlist.typePlaylist()==2){
-                    if(playlist.typePlaylist()==typeAudio){
-                        boolean repitAudio = playlist.findAudio(nameAudio);
-                        if(repitAudio== false){
-                            playlist.getAudios().add(audio);
-                            msj = "The audio has been added";
-                        }
-                        else{
-                            msj= "It is not possible to add this audio due to it is a different type of playlist";
-                        }
-                    }
-                }
-                if(playlist.typePlaylist()== 3){
-                    boolean repitAudio = playlist.findAudio(nameAudio);
-                    if(repitAudio == false){
-                        playlist.getAudios().add(audio);
-                        msj= "The audio has been added";
-                    }
-                    else{
-                        msj="It is not possible to add this audio due to it is a differente type of playlist";
-                    }
-                }
-            }
+            msj = playlist.getCode();
         }
         return msj;
     }
 
 
     @Override
-    public String sharePlaylist(String namePlaylist) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-
-    @Override
     public String shareMatrizPlaylist(String namePlaylist) {
-        // TODO Auto-generated method stub
-        return null;
+        String msj = "";
+        Playlist playlist = findPlaylist(namePlaylist);
+        if(playlist == null){
+            msj = "This playlist doesnt exists";
+        }
+        else{
+            msj = showMatriz(playlist.getMatriz());
+        }
+        return msj;
     }
 
 
     @Override
     public String showMatriz(int[][] matrix) {
-        // TODO Auto-generated method stub
-        return null;
+        String show = "";
+        for(int i = 0; i<matrix.length; i++){
+            for(int j = 0; j<matrix[0].length; j++){
+                show += matrix[i][j];
+            }
+            show += "\n";
+
+        }
+    
+        return show;
+    }
+
+
+    @Override
+    public String play(Audio audio) {
+        String msj = "."+ "."+"."+"."+"\n" +"The audio is playing at the moment"+ "\n";
+        if(audios.size()==0){
+
+        }else{
+            int reproduction = audios.size();
+            String adOne = "Coca-Cola -Open Happiness";
+            String adTwo = "Nike-Just do it";
+            String adThree = "M&Ms- Melts in Your Mouth, Not in Your Hands";
+
+            if(reproduction %2 ==0){
+                int number = createNumber();
+                switch(number){
+                    case 1:
+                    msj =adOne;
+                    break;
+                    
+                    case 2:
+                    msj = adTwo;
+                    break;
+
+                    case 3:
+                    msj = adThree;
+                    break;
+                }
+            }else{
+                audios.add(audio);
+            }
+        }
+        return msj;
+        
+    }
+    public int createNumber(){
+
+        Random r= new Random();
+       
+         int value = r.nextInt(2 + 1) + 1;
+       
+        return value;
+    }
+
+    public String mostViewsSong(){
+        String msj= "";
+        int [] generate = {0,0,0,0};
+        int pos = 0;
+        if(audios.size() !=0){
+            for(int i= 0; i<audios.size();i++){
+                if(audios.get(i) instanceof Song){
+                    Song song = ((Song)(audios.get(i)));
+
+                    switch(song.typeGenre()){
+                        case 1:
+                        generate[0]++;
+                        break;
+
+                        case 2:
+                        generate[1]++;
+                        break;
+
+                        case 3:
+                        generate[2]++;
+                        break;
+
+                        case 4:
+                        generate[3]++;
+                        break;
+
+                        default:
+                        break;
+                    }
+                }
+            }
+            int mayor = 0;
+            for(int i = 0; i<4;i++){
+                if(generate[i]> mayor){
+                    pos = i;
+                }
+            }
+            switch(pos){
+                case 0:
+                msj = "The most listened genre of songs according to this user is: HOUSE \n"+ "with amount of views:" +generate[pos];
+                break;
+
+                case 1:
+                msj = "The most listened type of podcast according to this user is: POP \n"+ "with amount of views:" +generate[pos];
+                break;
+
+                case 2:
+                msj = "The most listened type of podcast according to this user is: ROCK \n"+ "with amount of views:" +generate[pos];
+                break;
+
+                case 3:
+                msj = "The most listened type of podcast according to this user is: TRAP \n"+ "with amount of views:" +generate[pos];
+                break;
+            }
+        }
+        else{
+            msj = "The user doesnt have a historial of views";
+        } 
+        return msj;
+    }
+
+    public String mostViewsPodcast(){
+        String msj= "";
+        int [] generate = {0,0,0,0};
+        int pos = 0;
+        if(audios.size() !=0){
+            for(int i= 0; i<audios.size();i++){
+                if(audios.get(i) instanceof Podcast){
+                    Podcast podcast = ((Podcast)(audios.get(i)));
+
+                    switch(podcast.typePodcast()){
+                        case 1:
+                        generate[0]++;
+                        break;
+
+                        case 2:
+                        generate[1]++;
+                        break;
+
+                        case 3:
+                        generate[2]++;
+                        break;
+
+                        case 4:
+                        generate[3]++;
+                        break;
+
+                        default:
+                        break;
+                    }
+                }
+            }
+            int mayor = 0;
+            for(int i = 0; i<4;i++){
+                if(generate[i]> mayor){
+                    pos = i;
+                }
+            }
+            switch(pos){
+                case 0:
+                msj = "The most listened type of podcast according to this user is: ENTERTAINMENT \n"+ "with amount of views:" +generate[pos];
+                break;
+
+                case 1:
+                msj = "The most listened type of podcast according to this user is: FASHION \n"+ "with amount of views:" +generate[pos];
+                break;
+
+                case 2:
+                msj = "The most listened type of podcast according to this user is: POLITICS \n"+ "with amount of views:" +generate[pos];
+                break;
+
+                case 3:
+                msj = "The most listened type of podcast according to this user is: VIDEOGAMES \n"+ "with amount of views:" +generate[pos];
+                break;
+            }
+        }
+        else{
+            msj = "The user doesnt have a historial of views";
+        } 
+        return msj;
+
     }
 
     

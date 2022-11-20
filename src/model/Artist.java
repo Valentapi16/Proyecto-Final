@@ -21,7 +21,7 @@ public class Artist extends Producer {
         this.songs =songs;
     }
 
-    public boolean searchAutorAudio(Song song){
+    public boolean findAutorAudio(Song song){
         boolean isFound = false;
         for(int i = 0; i< songs.size() && !isFound; i++){
             if(songs.get(i) == song){

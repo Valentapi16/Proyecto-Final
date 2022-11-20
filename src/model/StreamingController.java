@@ -78,7 +78,7 @@ public class StreamingController {
     }
 
     /**
-     * finAudio: This method compares the names of existing audios to see if there is already one.
+     * findAudio: This method compares the names of existing audios to see if there is already one.
      * @param nameAudio: String: the audios name.
      * @return pos: a object of type audio. 
      */
@@ -258,29 +258,33 @@ public class StreamingController {
      * @param typeGenre: int: the song type. 
      * @return msj: String: a confirmation message.
      */
-    public String createSong(String nickname, String nameAudio, String urlImage,int durationAudio,int option,String urlAlbum, double cost, int typeGenre){
+
+    public String createSong(String nickname, String nameAudio, String urlImage,int durationAudio,String urlAlbum, double cost, int typeGenre){
         String msj = "New song created";
         User user = findUser(nickname);
 
         if(user == null){
-            msj = "This user doesnt exists in the system";
-        }
-        else{
+            msj = "This user doesnt exists";
+
+        }else{
             if(user instanceof Artist){
                 Audio song = findAudio(nameAudio);
                 if(song!= null){
-                    msj ="This song already exists";
+                    msj = "This song already exists";
+                }
+                else{
+                    audios.add(new Song(nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
+                    Artist artist = ((Artist)(user));
+                    artist.getSongs().add(new Song(nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
                 }
             }
             else{
-                audios.add(new Song(nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
-                Artist artist = ((Artist)(user));
-                artist.getSongs().add(new Song(nameAudio, urlImage, durationAudio, urlAlbum, cost, typeGenre));
-
+                msj = "This user isnt an artist";
             }
         }
-        return msj;
+        return msj ;
     }
+
      /**
      * registerPlaylist: This method will register a playlist.
      * @param nickname: String: this is the user nickname.
@@ -330,11 +334,11 @@ public class StreamingController {
      * @param audio: String: the audios name. 
      * @return msj: String: a confirmation message.
      */
-    public String editAudioPlaylist(String nickname,int option,String namePlaylist, String nameAudio){
+    public String editAudioPlaylist(int option,String nickname,String namePlaylist, String nameAudio){
         String msj = ""; 
         Audio newAudio = findAudio(nameAudio);
         if(newAudio == null){
-            msj = ("This song doesnt exists");
+            msj = "This song doesnt exists MALDITA SEAAAAAAA";
         }
         else{
             int type;
@@ -346,10 +350,23 @@ public class StreamingController {
             }
             User theUser = findUser(nickname);
             if(theUser == null){
-                msj = "This user doesnt exist"; 
+                msj = "This user doesn't exist"; 
             }
             else{
                 if(option == 1){
+                    if(theUser instanceof Standard){
+                        Standard newStandart = ((Standard)(theUser));
+                        msj = newStandart.addAudioToPlaylist(namePlaylist, type, newAudio,nameAudio); 
+                    }
+                    else if(theUser instanceof Premium){
+                        Premium newPremium = ((Premium)(theUser));
+                        msj = newPremium.addAudioToPlaylist(namePlaylist,type,newAudio, nameAudio);
+                    }
+                    else{
+                        msj = "This user doesnt have a Plan(Standard or Premium)";
+                    }
+                }
+                if(option == 2){
                     if(theUser instanceof Standard){
                         Standard newStandart = ((Standard)(theUser));
                         msj = newStandart.deleteAudio(newAudio, namePlaylist, nameAudio);
@@ -362,25 +379,98 @@ public class StreamingController {
                         msj = "This user doesnt have a Plan(Standard or Premium)";
                     }
                 }
-                if(option == 2){
-                    if(theUser instanceof Standard){
-                        Standard newStandart = ((Standard)(theUser));
-                        msj = newStandart.addAudioToPlaylist(namePlaylist, type, newAudio,nameAudio); 
-                    }
-                    else if(theUser instanceof Premium){
-                        Premium newPremium = ((Premium)(theUser));
-                        msj = newPremium.addAudioToPlaylist(namePlaylist,type,newAudio, nameAudio);
-                    }
-                    else{
-                        msj = "This user doesnt have a Plan(Standard or Premium)";
-                    }
+            }
+        }
+        return msj;
+    }
 
+
+    public String shareThePlaylist(String nickname,String namePlayslit){
+        String msj = "";
+        User user = findUser(nickname);
+
+        if( user == null){
+            msj = "This user doesnt exists";
+        }
+        else {
+            if(user instanceof Standard){
+                Standard newStandart=((Standard)(user));
+                msj = newStandart.sharePlaylist(namePlayslit)+ "\n" + newStandart.shareMatrizPlaylist(namePlayslit);
+            }
+            else if(user instanceof Premium){
+                Premium newPremium = ((Premium)(user));
+                msj = newPremium.sharePlaylist(namePlayslit) + "\n"+ newPremium.shareMatrizPlaylist(namePlayslit);
+            }
+            else{
+                msj = "This is only for consumer users";
+            }
+        }
+        return msj;
+    }
+
+    public String reproductionAudio(String nickname, String nameAudio){
+        String msj = "";
+        User user = findUser(nickname);
+
+        if(user== null){
+            msj = "This user doesnt exist in the platform";
+        }
+        else{
+            Audio newAudio = findAudio(nameAudio);
+            if(newAudio == null){
+                msj = "This audio doesnt exists";
+            }
+            else{
+                if(user instanceof Standard){
+                    Standard newStandard = ((Standard)(user));
+                    msj =  newStandard.play(newAudio);
+                    stateAudio(newAudio);
+                }
+                else if(user instanceof Premium){
+                    Premium newPremium = ((Premium)(user));
+                    msj = newPremium.play(newAudio);
+                    stateAudio(newAudio);
+                }else{
+                    msj = "This is only for consumers users";
                 }
             }
         }
-
-        return msj;
-
+        return msj ;
     }
+
+    public void stateAudio(Audio audio){
+        if(audio instanceof Song){
+            Song song = ( (Song)(audio) );
+            boolean val=false;
+            for(int i=0;i<users.size() && !val;i++){
+                if(users.get(i) instanceof Artist){
+                    Artist artist = ( (Artist) (users.get(i)) );
+                    if(artist.findAutorAudio(song)){
+                        artist.setTotalViews(artist.getTotalPLayedTime()+1);
+                        artist.setTotalPLayedTime(song.getDuration()+artist.getTotalPLayedTime());
+                        song.setView(song.getView()+1);
+                        val=true;
+                    }
+                }
+            }
+    
+        }
+        else if(audio instanceof Podcast){
+           Podcast podcast = ( ( Podcast)(audio) );
+               boolean val=false;
+               for(int i=0;i<users.size() && !val;i++){
+                   if(users.get(i) instanceof Creator){
+                       Creator creator = ( (Creator)(users.get(i)) );
+                       if(creator.findAutorAudio(podcast)){
+                           creator.setTotalViews(creator.getTotalPLayedTime()+1);
+                           creator.setTotalPLayedTime(podcast.getDuration()+creator.getTotalPLayedTime());
+                           podcast.setView(podcast.getView()+1);
+                           val=true;
+                       }
+                   }
+                }
+    
+            }
+        }
 
 }

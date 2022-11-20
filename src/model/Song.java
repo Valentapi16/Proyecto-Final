@@ -2,13 +2,13 @@ package model;
 
 public class Song extends Audio {
     
-    public String urlAlbum;
-    public int amountOfSales;
-    public double cost;
-    public TypeGenre typeGenre;
+    private String urlAlbum;
+    private int amountOfSales;
+    private double cost;
+    private TypeGenre typeGenre;
 
     public Song(String nameAudio, String url, int durationAudio, String urlAlbum, double cost, int option){
-        super(nameAudio, urlAlbum, durationAudio);
+        super(nameAudio, url, durationAudio);
         this.urlAlbum= urlAlbum;
         this.cost= cost;
         this.amountOfSales= 0;
@@ -106,7 +106,4 @@ public class Song extends Audio {
             return null; 
         }
     }
-
-
-
 }
