@@ -216,7 +216,11 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
         }
         return msj;
     }
-
+    /**
+     * showMatriz: Show a matriz playlist  for user.
+     * @param matrix: int: The matriz 
+     * @return   show:String: The playlist matriz. 
+     */
 
     @Override
     public String showMatriz(int[][] matrix) {
@@ -232,18 +236,30 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
         return show;
     }
 
-
+    public static void stopTime(int segundos){
+        try {
+            Thread.sleep(segundos*1000);
+        }catch(Exception msj){
+            System.out.println(msj);
+        }
+    }
+    /**
+     * play: this method plays an audio. 
+     * @param audio: Audio: the audios name.
+     * @return  msj: String: a confirm message.
+     */
     @Override
     public String play(Audio audio) {
+        stopTime(2);
         String msj = "."+ "."+"."+"."+"\n" +"The audio is playing at the moment"+ "\n";
-        if(audios.size()==0){
-
+        if(audios.size()!=0){
         }else{
             int reproduction = audios.size();
-            String adOne = "Coca-Cola -Open Happiness" + "\n";
-            String adTwo = "Nike-Just do it" + "\n";
-            String adThree = "M&Ms- Melts in Your Mouth, Not in Your Hands" + "\n";
-
+            String adOne = "."+ "."+"."+"."+"\n" +"The audio is playing at the moment"+ "\n" + "Coca-Cola -Open Happiness"  ;
+            String adTwo =  "."+ "."+"."+"."+"\n" +"The audio is playing at the moment"+ "\n" + "Nike-Just do it";
+            String adThree = "."+ "."+"."+"."+"\n" +"The audio is playing at the moment"+ "\n" + "M&Ms- Melts in Your Mouth, Not in Your Hands" + "\n"  ;
+            
+            stopTime(5);
             if(reproduction %2 ==0){
                 int number = createNumber();
                 switch(number){
@@ -260,12 +276,17 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
                     break;
                 }
             }else{
+                stopTime(3);
                 audios.add(audio);
             }
         }
         return msj;
         
     }
+    /**
+     * createNumber: Generate a random number
+     * @return  value:int: The random number. 
+     */
     public int createNumber(){
 
         Random r= new Random();

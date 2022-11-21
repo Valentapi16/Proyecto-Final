@@ -277,8 +277,8 @@ public class Main {
             "1. Report the total accumulated number of reproductions\n"+
             "2. Report the genre of song most heard by a user of the entire platform\n"+
             "3. Report the podcast genre most heard by a user of the entire platform\n"+
-            "4. Top 5 creators and artists\n"+
-            "5. Top 10 songs and podcast\n"+
+            "4. Top 5 creators and artists(N.A)\n"+
+            "5. Top 10 songs and podcast(N.A)\n"+
             "6. Number of songs sold per genre and total sales value\n"+
             "7. The most selling song on the platform\n");
             option = validateIntegerOption();
@@ -290,10 +290,14 @@ public class Main {
 
                   break;
                 case 2:
+                System.out.println("Digit the nickname of the consumer: ");
+                nicknameConsumer = reader.next();
                 System.out.println(streaming.infoMostViewSong(nicknameConsumer));
 
                   break;
                 case 3:
+                System.out.println("Digit the nickname of the consumer: ");
+                nicknameConsumer = reader.next();
                 System.out.println(streaming.infoMostViewPodcast(nicknameConsumer));
 
                   break;

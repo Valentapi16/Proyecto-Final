@@ -20,7 +20,11 @@ public class Creator extends Producer {
         this.podcasts = podcasts;
     }
 
-
+    /**
+     * findAutorAudio: Search for an audio for this creator. 
+     * @param podcast: Podcast: the obj podcast
+     * @return isFoud : boolean: if is found o isnot found. 
+     */
     public boolean findAutorAudio(Podcast podcast){
         boolean isFound = false;
         for(int i = 0; i < podcasts.size() && !isFound; i++){

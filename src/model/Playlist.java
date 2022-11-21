@@ -89,7 +89,11 @@ public class Playlist {
              return 0;
         }
     }
-
+    /**
+     * findAudio: Search the name of the audio if this one exists. 
+     * @param nameAudio: String: The name of the audio
+     * @return isFoud : boolean: if is found o isnot found. 
+     */
     public boolean findAudio(String nameAudio){
 
         Audio object = null;

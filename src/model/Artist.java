@@ -20,7 +20,11 @@ public class Artist extends Producer {
     public void setSongs(ArrayList<Song> songs){
         this.songs =songs;
     }
-
+    /**
+     * searchAudioAutor: Search for an audio of this artist. 
+     * @param song: Song: the obj song
+     * @return isFoud : boolean: if is found o isnot found. 
+     */
     public boolean findAutorAudio(Song song){
         boolean isFound = false;
         for(int i = 0; i< songs.size() && !isFound; i++){

@@ -14,7 +14,13 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
         audios = new ArrayList<Audio>();
         
     }
-
+    /**
+     * deleteAudio: Delete an audio for a specific playlist.
+     * @param audio:  Audio: the object audio.
+     * @param namePlaylist: String: The name of the playlist
+     * @param nameAudio: String: The name of the audio
+     * @return msj: String: a confirmation message 
+     */
     @Override
     public String deleteAudio(Audio audio, String namePlaylist, String nameAudio) {
         String msj ="";
@@ -34,7 +40,14 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
         }
         return msj;
     }
-
+     /**
+     * addAudioToPlaylist: Add an audio for a specific playlist.
+     * @param namePlaylist: String: the playlist name
+     * @param typeAudio: int: The type of the audio.
+     * @param audio:  Audio: the object audio. 
+     * @param nameAudio: String: The name of the audio
+     * @return msj: String: a confirmation message 
+     */
     @Override
     public String addAudioToPlaylist(String namePlaylist, int typeAudio, Audio audio, String nameAudio) {
             String msj = "";
@@ -91,12 +104,16 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
                     else{
                         msj = "You cant add this audio due to this is a different kind of playlist";
                     }
-                }
-
             }
-            return msj;
-        }
 
+        }
+            return msj;
+    }
+    /**
+     * findPlaylist: This method compares the names of existing playlist to see if there is already one.
+     * @param namePlaylist: String: The playlist name.
+     * @return newPlaylist: An object of playlist audio. 
+     */
     @Override
     public Playlist findPlaylist(String namePlaylist) {
         Playlist newPlaylist = null;
@@ -111,7 +128,14 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
         }
         return newPlaylist;
     }
-
+    /**
+     * addPlaylist: Add a playlist for the user. 
+     * @param namePlaylist: String:The playlists name.
+     * @param matriz: int[][]. The matriz of the playlist
+     * @param code: String: The code of the matriz
+     * @param option: the type of the playlist
+     * @return validation : a boolean for confirmation. 
+     */
     @Override
     public boolean addPlaylist(String namePlaylist, int[][] matriz, String codePlaylist, int option) {
 
@@ -126,14 +150,22 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
         }
         return msj;
     }
-
+    /**
+     * play: this method plays an audio. 
+     * @param audio: Audio: the audios name.
+     * @return  msj: String: a confirm message.
+     */
     @Override
     public String play(Audio audio) {
-        String msj = "."+ "."+"."+"."+"\n" +"The audio is playing at the moment"+ "\n";
+        String msj = "."+ "."+"."+"."+"\n" +"The audio is playing at the moment"+ "\n" +"." +".";
         audios.add(audio);
         return msj;
     }
-
+    /**
+     * sharePlaylist: Share a specific  users playlist. 
+     * @param namePlaylist: String: Playlist name.
+     * @return  msj:String: The playlist. 
+     */
     @Override
     public String sharePlaylist(String namePlaylist) {
         String msj = "";
@@ -146,7 +178,11 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
         }
         return msj;
     }
-
+    /**
+     * shareMatrizPlaylist: Share a matriz playlist  for user.
+     * @param namePlaylist: String: Playlist's name.
+     * @return   msj:String: The playlist. 
+     */
     @Override
     public String shareMatrizPlaylist(String namePlaylist) {
         String msj = "";
@@ -159,7 +195,11 @@ public class Premium extends Consumer implements ICreateAPlaylist, IEditAPlaylis
         }
         return msj;
     }
-
+    /**
+     * showMatriz: Show a matriz playlist of the user.
+     * @param matrix: int: The matriz
+     * @return   show:String: The playlist matriz. 
+     */
     @Override
     public String showMatriz(int[][] matrix) {
         String show = "";

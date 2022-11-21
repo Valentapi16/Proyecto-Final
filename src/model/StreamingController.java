@@ -569,7 +569,7 @@ public class StreamingController {
             totalViews+=audios.get(i).getView();
             }
         }
-        msj = "the total views is  " + totalViews ;
+        msj = "The total views is:  " + totalViews ;
         return msj;
 
     }
@@ -578,7 +578,7 @@ public class StreamingController {
         User user = findUser(nickname);
 
         if(user == null){
-            msj = "this user doesnt exist";
+            msj = "This user doesnt exists in the system";
         }
         else{
 
@@ -640,7 +640,7 @@ public class StreamingController {
              msj="\n The most listened genre  rock \n"+"views: "+geners[position];
              break;
              case 1:
-             msj="\n The most listened genre: pop \n"+"views: "+geners[position];
+             msj="\n The most listened genre: pop \n"+ " views: "+ geners[position];
              break;
              case 2:
              msj="\n The most listened genre : trap \n"+"views: "+geners[position];
