@@ -4,12 +4,16 @@ import java.util.ArrayList;
 
 import java.util.Calendar;
 import java.util.Random;
+
+
+
 import java.util.GregorianCalendar;
 
 public class StreamingController {
 
     public ArrayList<Audio> audios;
     public ArrayList<User> users;
+    public ArrayList<Store> stores;
     public static final int ROWS = 6;
     public static final int COLUMNS= 6;
 
@@ -17,6 +21,7 @@ public class StreamingController {
 
         users= new ArrayList<User>();
         audios = new ArrayList<Audio>();
+        stores = new ArrayList<Store>(); 
     }
 
     /**
@@ -67,12 +72,12 @@ public class StreamingController {
      */    
     public int[][] createMatriz(){
 
-        int matriz[][] = new int[ROWS][COLUMNS];
+        int matriz[][]=new int[6][6];
 
-        for(int i= 0; i<ROWS; i++){
-            for(int j= 0; i<COLUMNS; i++){
-                matriz[i][j] =generateANumber(); 
-            }
+        for(int i=0;i<6;i++){
+          for(int j=0;j<6;j++){
+              matriz[i][j]=generateANumber();
+          }
         }
         return matriz;
     }
@@ -107,30 +112,30 @@ public class StreamingController {
 
         switch(option){
             case 1:
-             for(int i=5;i<0;i--){
-                code+=matriz[i][0];
-             }
-             for(int j=1, h=1;j>4 && h>4;j++,h++){
-                code+=matriz[j][h];
-             }
-             for(int k=5;k<0;k--){
-                code+=matriz[k][5];
-             }
+            for (int i = matriz.length; i > 0; i--) {
+                code += matriz[i - 1][0];
+              }
+                  for (int i = 1, j = 1; i < matriz.length -1; i++, j++) {           
+                    code+= matriz[i][j];        
+                  }
+              for (int i = matriz.length; i > 0; i--) { 
+                code += matriz[i - 1][matriz[0].length - 1];
+              }
             break;
 
             case 2:
-             for(int i=0;i<2;i++){
-                code+=matriz[0][i];
-             }
-             for(int j=1;j<5;j++){
-                code+=matriz[j][2];
-             } 
-             for(int k=5;k<0;k--){
-                code+=matriz[k][3];
-             }
-             for(int u=3;u>5;u++){
-                code+=matriz[0][u];
-             }
+            for (int j = 0; j < matriz.length -4; j++) { 
+                code+= matriz[0][j];
+            }
+            for (int i = 0; i < matriz.length; i++) { 
+                code += matriz[i][2];
+            }
+            for (int i = matriz.length; i > 0; i--) { 
+                code += matriz[i - 1][3];
+            }
+            for (int j = matriz.length -2; j < matriz.length; j++ ) { 
+                code += matriz[0][j];
+            }
 
              break;
                
@@ -383,31 +388,40 @@ public class StreamingController {
         }
         return msj;
     }
-
-
+    /**
+     * ShareThePlaylist: Share trough a code an specific type of playlist according to the user 
+     * @param nickname : String : User's nickname.
+     * @param namePlaylist: String: Playlist's name.
+     * @return  code: String: The playlist. 
+     */
     public String shareThePlaylist(String nickname,String namePlayslit){
-        String msj = "";
+        String code = "";
         User user = findUser(nickname);
 
         if( user == null){
-            msj = "This user doesnt exists";
+            code = "This user doesnt exists";
         }
         else {
             if(user instanceof Standard){
                 Standard newStandart=((Standard)(user));
-                msj = newStandart.sharePlaylist(namePlayslit)+ "\n" + newStandart.shareMatrizPlaylist(namePlayslit);
+                code = newStandart.sharePlaylist(namePlayslit)+ "\n" + newStandart.shareMatrizPlaylist(namePlayslit);
             }
             else if(user instanceof Premium){
                 Premium newPremium = ((Premium)(user));
-                msj = newPremium.sharePlaylist(namePlayslit) + "\n"+ newPremium.shareMatrizPlaylist(namePlayslit);
+                code = newPremium.sharePlaylist(namePlayslit) + "\n"+ newPremium.shareMatrizPlaylist(namePlayslit);
             }
             else{
-                msj = "This is only for consumer users";
+                code = "This is only for consumer users";
             }
         }
-        return msj;
+        return code;
     }
-
+    /**
+     * reproductionAudio: this method plays an audio. 
+     * @param nickname : String : this is the user nickname.
+     * @param nameAudio: String: the audios name.
+     * @return  msj: String: a confirm message.
+     */
     public String reproductionAudio(String nickname, String nameAudio){
         String msj = "";
         User user = findUser(nickname);
@@ -456,21 +470,379 @@ public class StreamingController {
     
         }
         else if(audio instanceof Podcast){
-           Podcast podcast = ( ( Podcast)(audio) );
-               boolean val=false;
-               for(int i=0;i<users.size() && !val;i++){
-                   if(users.get(i) instanceof Creator){
-                       Creator creator = ( (Creator)(users.get(i)) );
-                       if(creator.findAutorAudio(podcast)){
-                           creator.setTotalViews(creator.getTotalPLayedTime()+1);
-                           creator.setTotalPLayedTime(podcast.getDuration()+creator.getTotalPLayedTime());
-                           podcast.setView(podcast.getView()+1);
-                           val=true;
-                       }
-                   }
+            Podcast podcast = ( ( Podcast)(audio));
+            boolean val=false;
+            for(int i=0;i<users.size() && !val;i++){
+                if(users.get(i) instanceof Creator){
+                    Creator creator = ( (Creator)(users.get(i)) );
+                    if(creator.findAutorAudio(podcast)){
+                        creator.setTotalViews(creator.getTotalPLayedTime()+1);
+                        creator.setTotalPLayedTime(podcast.getDuration()+creator.getTotalPLayedTime());
+                        podcast.setView(podcast.getView()+1);
+                        val=true;
+                    }
                 }
-    
             }
         }
+    }
+    /**
+     * countPurchases: this method count the buys for user. 
+     * @param nickname : String : this is the user nickname.
+     * @return  count: int: a int count .
+     */
+    public int countPurchases(String nickname){
+        int count =0; 
+        if(stores.size() != 0){
 
+            for(int i = 0; i <stores.size(); i++ ){
+                stores.get(i).getNickname().equalsIgnoreCase(nickname);
+                count++;
+            }
+
+        }
+        return count; 
+
+    }
+    /**
+     * purchaseSong: Buys a song. 
+     * @param nickname : String : User's nickname.
+     * @param nameAudio: String: Audio's name.
+     * @return  msj: String: a confirm message.
+     */
+    public String purchaseSong(String nickname, String nameAudio){
+
+        String msj = "Thank you for purchasing"; 
+        User user = findUser(nickname);
+
+        if(user == null){
+            msj = "This user doesnt exists in the system";
+        }
+        else{
+            Audio newAudio = findAudio(nameAudio);
+            if(newAudio == null){
+                msj = "This audio doesnt exists";
+            }
+
+            else{
+                if(newAudio instanceof Song){
+                    Song newSong = ( (Song)(newAudio) );
+                    if(user instanceof Standard){
+                        int numBuys = countPurchases(nickname);
+                        if(numBuys<100){
+                            Store newStore = new Store(actualDate(), nickname, nameAudio); 
+                            stores.add(newStore); 
+                            newSong.setNumberSales(newSong.getAmountSales()+1);
+
+                        }else{
+                            msj = "You reached the purchasing limit "; 
+                        }
+
+                    } else if( user instanceof Premium){
+                        Store newShop = new Store(actualDate(), nickname, nameAudio); 
+                        stores.add(newShop); 
+                        newSong.setNumberSales(newSong.getAmountSales()+1);
+
+                    }
+                }
+                else if(newAudio instanceof Podcast){
+                    msj = "You cant buy podcast";
+                    
+                }
+                else{
+                    msj = "Digit a type consumer"; 
+                }
+            } 
+
+        }
+        return msj; 
+
+    }
+    /**
+     * reportTotalViews: this method inform the total views
+     * @return msj: a confirmation message.
+     */
+    public String reportTotalViews(){
+        String msj = ""; 
+        int totalViews=0;
+        if(audios.size()!=0){
+            for(int i=0;i<audios.size();i++){
+            totalViews+=audios.get(i).getView();
+            }
+        }
+        msj = "the total views is  " + totalViews ;
+        return msj;
+
+    }
+    public String infoMostViewSong(String nickname){
+        String msj = ""; 
+        User user = findUser(nickname);
+
+        if(user == null){
+            msj = "this user doesnt exist";
+        }
+        else{
+
+            if(user instanceof Standard){
+                Standard standard = ((Standard)(user)); 
+                 msj=mostSongViews() + standard.mostViewsSong();
+            }
+            else if(user instanceof Premium){
+                Premium premium = ((Premium)(user)); 
+                 msj=mostSongViews() + premium.mostViewsSong();
+
+            }
+            else{
+                msj="you must enter a user type consumer";
+            }
+        }
+    return msj;
+
+    }
+    /**
+     * mostSongViews: this method inform the most view song in the app. 
+     * @return msj: String : a confirmation message.
+     */
+
+    public String mostSongViews(){
+        String msj ="";
+        int[]  geners ={0,0,0,0};
+        int position =0;
+        if(audios.size()!=0){
+            for(int i =0; i< audios.size(); i++){
+                if(audios.get(i) instanceof Song){
+                    Song song = ( (Song)(audios.get(i)) );
+                    switch(song.typeGenre()){
+                     case 1:
+                      geners[0]++;
+                      break;
+                     case 2:
+                     geners[1]++;
+                      break;
+                     case 3:
+                     geners[2]++;
+                      break;
+                     case 4:
+                     geners[3]++;
+                      break;
+                     default:
+                      break;
+                   }
+                }
+            }
+            int mayor =0;
+            for(int i =0; i<4; i++){
+                if(geners[i]> mayor){
+                    position =i; 
+                }
+            }
+            switch(position){
+             case 0:
+             msj="\n The most listened genre  rock \n"+"views: "+geners[position];
+             break;
+             case 1:
+             msj="\n The most listened genre: pop \n"+"views: "+geners[position];
+             break;
+             case 2:
+             msj="\n The most listened genre : trap \n"+"views: "+geners[position];
+             break;
+             case 3:
+             msj="\n The most listened genre: house \n"+"views: "+geners[position];
+             break;
+             case 4:
+             msj="This song doesnt exists";
+             break;
+            }
+
+        }
+        else{
+            msj = "The platform doesnt have audios to do the reports";
+        }
+        return msj; 
+    }
+
+     /**
+     * infoMostViewPodcast: this method inform the most view podcast for user. 
+     * @param nickname : String : this is the user nickname.
+     * @return msj: String : a confirmation message.
+     */
+
+    public String infoMostViewPodcast(String nickname){
+        String msj = ""; 
+        User user = findUser(nickname);
+
+        if(user == null){
+            msj = "this user doesnt exist";
+        }
+        else{
+
+            if(user instanceof Standard){
+                Standard standard = (Standard) user; 
+                 msj=mostPodcastViews() + standard.mostViewsPodcast();
+            }
+            else if(user instanceof Premium){
+                Premium premium = ( Premium) user; 
+                msj=mostPodcastViews() + premium.mostViewsPodcast();
+
+            }
+            else{
+                msj="you must enter a user type consumer";
+            }
+        }
+        return msj;
+    }
+    /**
+     * mostPodcastViews: this method inform the most view podcast in the app. 
+     * @return msj: String : a confirmation message.
+     */
+
+    public String mostPodcastViews(){
+    String msj="";
+    int [] geners= {0,0,0,0};
+    int position=4;
+     if(audios.size()!=0){
+       for(int i=0; i<audios.size();i++){
+         if(audios.get(i) instanceof Podcast){
+          Podcast podcast = ( (Podcast)(audios.get(i)) );
+           switch(podcast.typePodcast()){
+             case 1:
+              geners[0]++;
+              break;
+             case 2:
+             geners[1]++;
+              break;
+             case 3:
+             geners[2]++;
+              break;
+             case 4:
+             geners[3]++;
+              break;
+             default:
+              break;
+           }
+         }
+       }
+       int mayor=0;
+        for(int i=0; i<4;i++){
+         if(geners[i]>mayor){
+           position=i;
+         }
+        }
+       switch(position){
+         case 0:
+         msj="The most listened genre: Politic \n"+"views: "+geners[position];
+         break;
+         case 1:
+         msj="The most listened genre: Entertaiment \n"+"views: "+geners[position];
+         break;
+         case 2:
+         msj="The most listened genre : Fashion \n"+"views: "+geners[position];
+         break;
+         case 3:
+         msj="The most listened genre: Videogame \n"+"views: "+geners[position];
+         break;
+         case 4:
+         msj="This podcast doesnt exists";
+         break;
+       }
+       
+     }
+     else{
+       msj="This platform doesnt have audios for reporting";
+     }
+    return msj;
+   }
+   /**
+     * bestSellingSong: this method inform the most sold song in the app.
+     * @return msj: String : a informative message.
+     */
+    public String bestSellingSong(){
+        String msj = ""; 
+        int solds =0;
+        String name = "";
+        double totalSales =0.0; 
+    
+        if(audios.size() !=0){
+            for(int i =0; i< audios.size(); i++){
+                if(audios.get(i) instanceof Song){
+                    Song song = ( (Song)(audios.get(i)) );
+                    if(song.getAmountSales() > solds){
+                        solds = song.getAmountSales();
+                        name = song.getName(); 
+                        totalSales = song.getAmountSales() * song.getCost(); 
+                    }
+                }
+            }
+    
+        } else{
+            msj = "The platform doesnt have audios for reporting"; 
+          }
+    
+          msj = "The best selling song is:  " +  name + " to these sales " + solds + " and the total sales value " + totalSales; 
+          return msj; 
+       }
+
+    /**
+     * allSalesSongs: Report the total sales for song sold in the platform.
+     * @return msj: String : The report messaje.
+     */
+
+    public String allSalesSongs(){
+        String msj = ""; 
+        double totalSales = 0.0; 
+        if(audios.size()!=0){
+            for(int i =0; i< audios.size(); i++){
+                if(audios.get(i) instanceof Song){
+                     Song song = ( (Song)(audios.get(i)) );
+                    totalSales += song.getAmountSales() *  song.getCost(); 
+                }
+            }
+        }else{
+            msj="The platform doesnt have audios for reporting";
+        }
+        msj = " The total number of songs sold is... " + totalSales; 
+        return msj; 
+    }
+    /**
+     * reportSongsSold: this method inform the song sold for genred in the app.
+     * @return msj: String : a informative message.
+     */
+    public String reportSongsSold(){
+        String msj = ""; 
+        int countRock = 0;
+        int countPop =0;
+        int countTrap =0;
+        int countHouse =0; 
+        if(audios.size()!=0){
+            for(int i =0; i< audios.size(); i++){
+                if(audios.get(i) instanceof Song){
+                    Song song = ( (Song)(audios.get(i)) );
+                    switch(song.typeGenre()){
+                         case 1:
+                          countHouse += song.getAmountSales(); 
+                          break;
+                         case 2:
+                         countPop += song.getAmountSales(); 
+                          break;
+                         case 3:
+                         countRock += song.getAmountSales(); 
+                          break;
+                         case 4:
+                         countTrap += song.getAmountSales(); 
+                          break;
+    
+                         default:
+                          break;
+                    }
+                }
+            }
+        }else{
+            msj="The platform doesnt have audios for reporting";
+        }
+        msj = "The amount of sales according to the genre is: \n" +
+            "House: " + countHouse + "\n"+
+            "Pop: " +  countPop + "\n"+
+            "Rock: " + countRock +"\n"+
+            "Trap: "+ countTrap + "\n"; 
+            return msj; 
+       }
 }

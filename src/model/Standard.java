@@ -18,7 +18,11 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
         audios = new ArrayList<Audio>();
     }
 
-
+    /**
+     * findPlaylist: This method compares the names of existing playlist to see if there is already one.
+     * @param namePlaylist: String: The playlist name.
+     * @return newPlaylist: An object of playlist audio. 
+     */
     @Override
     public Playlist findPlaylist(String namePlaylist){
         Playlist newPlaylist = null;
@@ -33,7 +37,14 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
         return newPlaylist;
     }
 
-
+    /**
+     * addPlaylist: Add a playlist for the user. 
+     * @param namePlaylist: String:The playlists name.
+     * @param matriz: int[][]. The matriz of the playlist
+     * @param code: String: The code of the matriz
+     * @param option: the type of the playlist
+     * @return validation : a boolean for confirmation. 
+     */
     @Override
     public boolean addPlaylist(String namePlaylist, int[][] matriz, String code, int option){
 
@@ -60,7 +71,10 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
 
         return validate;
     }
-
+    /**
+     * spaceForPlaylist: Look for an available position in the array 
+     * @return validation: Boolean of found or not found
+     */
     public boolean spaceForPlaylist(){
         boolean validate = true;
         if(playlist[19] != null){
@@ -69,7 +83,13 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
         return validate;
     }
 
-
+    /**
+     * deleteAudio: Delete an audio for a specific playlist.
+     * @param audio:  Audio: the object audio.
+     * @param namePlaylist: String: The name of the playlist
+     * @param nameAudio: String: The name of the audio
+     * @return msj: String: a confirmation message 
+     */
     @Override
     public String deleteAudio(Audio audio, String namePlaylist, String nameAudio) {
         
@@ -91,7 +111,14 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
         return msj;
     }
 
-
+     /**
+     * addAudioToPlaylist: Add an audio for a specific playlist.
+     * @param namePlaylist: String: the playlist name
+     * @param typeAudio: int: The type of the audio.
+     * @param audio:  Audio: the object audio. 
+     * @param nameAudio: String: The name of the audio
+     * @return msj: String: a confirmation message 
+     */
     @Override
     public String addAudioToPlaylist(String namePlaylist, int typeAudio, Audio audio, String nameAudio) {
             String msj = "";
@@ -154,7 +181,11 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
             return msj;
         }
 
-
+    /**
+     * sharePlaylist: Share a specific  users playlist. 
+     * @param namePlaylist: String: Playlist name.
+     * @return  msj:String: The playlist. 
+     */
     @Override
     public String sharePlaylist(String namePlaylist) {
         String msj = "";
@@ -168,7 +199,11 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
         return msj;
     }
 
-
+    /**
+     * shareMatrizPlaylist: Share a matriz playlist  for user.
+     * @param namePlaylist: String: Playlist's name.
+     * @return   msj:String: The playlist. 
+     */
     @Override
     public String shareMatrizPlaylist(String namePlaylist) {
         String msj = "";
@@ -205,9 +240,9 @@ public class Standard extends Consumer implements ICreateAPlaylist, IEditAPlayli
 
         }else{
             int reproduction = audios.size();
-            String adOne = "Coca-Cola -Open Happiness";
-            String adTwo = "Nike-Just do it";
-            String adThree = "M&Ms- Melts in Your Mouth, Not in Your Hands";
+            String adOne = "Coca-Cola -Open Happiness" + "\n";
+            String adTwo = "Nike-Just do it" + "\n";
+            String adThree = "M&Ms- Melts in Your Mouth, Not in Your Hands" + "\n";
 
             if(reproduction %2 ==0){
                 int number = createNumber();

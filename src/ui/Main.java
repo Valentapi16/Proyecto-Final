@@ -257,12 +257,59 @@ public class Main {
 
             System.out.println("Digit the nickname of the user consumer");
             nickname = reader.next();
-            System.out.println("Digit the name of the playlist: ");
-            namePlaylist = reader.next();
+            System.out.println("Digit the name of the audio: ");
+            nameAudio = reader.next();
 
             System.out.println(streaming.reproductionAudio(nickname, nameAudio));
             
-                break;            
+                break;  
+            case 8:
+            System.out.println("You choose to buy a song");
+            System.out.println("Digit the nickname of the user consumer");
+            nickname = reader.next();
+            System.out.println("Digit the name of the Song: ");
+            nameAudio = reader.next();
+            
+            System.out.println(streaming.purchaseSong(nickname, nameAudio));
+                break;
+            case 9:
+            System.out.println("Choose the report you want to know \n" +
+            "1. Report the total accumulated number of reproductions\n"+
+            "2. Report the genre of song most heard by a user of the entire platform\n"+
+            "3. Report the podcast genre most heard by a user of the entire platform\n"+
+            "4. Top 5 creators and artists\n"+
+            "5. Top 10 songs and podcast\n"+
+            "6. Number of songs sold per genre and total sales value\n"+
+            "7. The most selling song on the platform\n");
+            option = validateIntegerOption();
+            String nicknameConsumer = "";
+
+            switch(option){
+                case 1:
+                System.out.println(streaming.reportTotalViews());
+
+                  break;
+                case 2:
+                System.out.println(streaming.infoMostViewSong(nicknameConsumer));
+
+                  break;
+                case 3:
+                System.out.println(streaming.infoMostViewPodcast(nicknameConsumer));
+
+                  break;
+                case 4:
+                  break;
+                case 5:
+                  break;
+                case 6:
+                System.out.println(streaming.allSalesSongs());
+                System.out.println(streaming.reportSongsSold());
+                  break;
+                case 7:
+                System.out.println(streaming.bestSellingSong());
+                  break; 
+            }
+                break;    
 
 			case 0: 
 				System.out.println("Exit program.");
